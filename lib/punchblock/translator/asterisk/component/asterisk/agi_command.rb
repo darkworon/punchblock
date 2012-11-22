@@ -46,13 +46,14 @@ module Punchblock
             end
 
             def agi_command
-              "#{@component_node.name} #{@component_node.params_array.map { |arg| quote_arg(arg) }.join(' ')}".squish
+              "#{@component_node.name} #{@component_node.params_array.map { |arg| separate_args(arg) }.join(',')}".squish
             end
 
             # Arguments surrounded by quotes; quotes backslash-escaped.
             # See parse_args in asterisk/res/res_agi.c (Asterisk 1.4.21.1)
-            def quote_arg(arg)
-              '"' + arg.to_s.gsub(/["\\]/) { |m| "\\#{m}" } + '"'
+            def separate_args(arg)
+              #'"' + arg.to_s.gsub(/["\\]/) { |m| "\\#{m}" } + '"'
+              arg.to_s.gsub(/["\\]/) { |m| "\\#{m}" }
             end
 
             def success_reason(event)
